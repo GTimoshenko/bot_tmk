@@ -12,7 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_commodity_prices(commodity):
+def get_commodity_prices(commodity_name):
     url = "https://tradingeconomics.com/commodity/iron-ore"
 
     headers = {
@@ -24,31 +24,27 @@ def get_commodity_prices(commodity):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Ищем элементы таблицы с котировками
         table = soup.find("table", class_="table-heatmap")
 
         if table:
-            # Находим строки таблицы
             rows = table.find_all("tr")
 
-            # Обрабатываем каждую строку таблицы
             for row in rows:
-                # Находим ячейки в строке
                 cells = row.find_all("td")
 
                 # Если есть ячейки и их достаточно для обработки
                 if len(cells) > 1:
                     # Извлекаем информацию о котировках для заданного товара
-                    if commodity.lower() in cells[0].text.lower():
+                    if commodity_name.lower() in cells[0].text.lower():
                         commodity_price = cells[1].text.strip()
-                        return {"commodity": commodity, "price": commodity_price}
+                        return commodity_price
 
             # Если товар не найден
-            return {"error": f"Котировки для {commodity} не найдены."}
+            return None
         else:
-            return {"error": "Таблица с котировками не найдена."}
+            return None
     else:
-        return {"error": f"Ошибка при запросе страницы. Код ошибки: {response.status_code}"}
+        return None
 
 
 def get_currency_rate(currency_code):
@@ -86,13 +82,13 @@ def handle_all_messages(message):
             bot.reply_to(message, f"Курс юаня (CNY): {cny_rate}")
         else:
             bot.reply_to(message, "Не удалось получить курс юаня.")
-    elif message.text == 'Iron ore':
+    elif message.text == 'Курс чугуна':
         iron_rate = get_commodity_prices("Iron Ore")
         if iron_rate is not None:
             bot.reply_to(message, f"Курс чугуна (Iron Ore): {iron_rate}")
         else:
             bot.reply_to(message, "Не удалось получить курс чугуна.")
-    elif message.text == 'Steel':
+    elif message.text == 'Курс стали':
         steel_rate = get_commodity_prices("Steel")
         if steel_rate is not None:
             bot.reply_to(message, f"Курс стали (Iron Ore): {steel_rate}")
