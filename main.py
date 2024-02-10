@@ -85,13 +85,13 @@ def handle_all_messages(message):
     elif message.text == 'Курс чугуна':
         iron_rate = get_commodity_prices("Iron Ore")
         if iron_rate is not None:
-            bot.reply_to(message, f"Курс чугуна (Iron Ore): {iron_rate}")
+            bot.reply_to(message, f"Курс чугуна (Iron Ore): {iron_rate} Долларов США за метрическую тонну")
         else:
             bot.reply_to(message, "Не удалось получить курс чугуна.")
     elif message.text == 'Курс стали':
         steel_rate = get_commodity_prices("Steel")
         if steel_rate is not None:
-            bot.reply_to(message, f"Курс стали (Iron Ore): {steel_rate}")
+            bot.reply_to(message, f"Курс стали (Steel): {steel_rate} Юаней за тонну")
         else:
             bot.reply_to(message, "Не удалось получить курс стали.")
 
