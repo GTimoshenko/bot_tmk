@@ -1,9 +1,54 @@
 import telebot
 from telebot import types
+from bs4 import BeautifulSoup
 from pycbrf.toolbox import ExchangeRates
 
 TOKEN = '6640592682:AAGZqCIfKmQ3sFuLGaVy2hA_ecM4V8R1w14'
 bot = telebot.TeleBot(TOKEN)
+
+import requests
+from bs4 import BeautifulSoup
+import requests
+from bs4 import BeautifulSoup
+
+
+def get_commodity_prices(commodity):
+    url = "https://tradingeconomics.com/commodity/iron-ore"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Ищем элементы таблицы с котировками
+        table = soup.find("table", class_="table-heatmap")
+
+        if table:
+            # Находим строки таблицы
+            rows = table.find_all("tr")
+
+            # Обрабатываем каждую строку таблицы
+            for row in rows:
+                # Находим ячейки в строке
+                cells = row.find_all("td")
+
+                # Если есть ячейки и их достаточно для обработки
+                if len(cells) > 1:
+                    # Извлекаем информацию о котировках для заданного товара
+                    if commodity.lower() in cells[0].text.lower():
+                        commodity_price = cells[1].text.strip()
+                        return {"commodity": commodity, "price": commodity_price}
+
+            # Если товар не найден
+            return {"error": f"Котировки для {commodity} не найдены."}
+        else:
+            return {"error": "Таблица с котировками не найдена."}
+    else:
+        return {"error": f"Ошибка при запросе страницы. Код ошибки: {response.status_code}"}
 
 
 def get_currency_rate(currency_code):
@@ -20,7 +65,9 @@ def send_welcome(message):
     markup = types.ReplyKeyboardMarkup(row_width=2)
     usd_button = types.KeyboardButton('Курс доллара')
     cny_button = types.KeyboardButton('Курс юаня')
-    markup.add(usd_button, cny_button)
+    iron_button = types.KeyboardButton('Курс чугуна')
+    steel_button= types.KeyboardButton('Курс стали')
+    markup.add(usd_button, cny_button, iron_button, steel_button)
 
     bot.reply_to(message, "Привет! Я конвертирую валюты специально для кейса от ТМК. А пока я считаю, можешь выпить вечерний кофий. 😉", reply_markup=markup)
 
@@ -39,6 +86,18 @@ def handle_all_messages(message):
             bot.reply_to(message, f"Курс юаня (CNY): {cny_rate}")
         else:
             bot.reply_to(message, "Не удалось получить курс юаня.")
+    elif message.text == 'Iron ore':
+        iron_rate = get_commodity_prices("Iron Ore")
+        if iron_rate is not None:
+            bot.reply_to(message, f"Курс чугуна (Iron Ore): {iron_rate}")
+        else:
+            bot.reply_to(message, "Не удалось получить курс чугуна.")
+    elif message.text == 'Steel':
+        steel_rate = get_commodity_prices("Steel")
+        if steel_rate is not None:
+            bot.reply_to(message, f"Курс стали (Iron Ore): {steel_rate}")
+        else:
+            bot.reply_to(message, "Не удалось получить курс стали.")
 
 
 if __name__ == "__main__":
