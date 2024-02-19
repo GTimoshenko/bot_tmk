@@ -64,24 +64,24 @@ Usage
       Clicking this button will trigger the bot to retrieve and display the current exchange rate of the US Dollar (USD) relative to the Russian Ruble (RUB).
     
     * ### CNY Exchange Rate🇨🇳
-    
-    Clicking this button will prompt the bot to retrieve and show the current exchange rate of the Chinese Yuan (CNY) relative to the Russian Ruble (RUB).
+
+      Clicking this button will prompt the bot to retrieve and show the current exchange rate of the Chinese Yuan (CNY) relative to the Russian Ruble (RUB).
     
     * ### Iron Ore Price⛏️
     
-    Clicking this button will initiate a conversation with the bot to calculate the price of iron ore based on its weight. The bot will ask you to enter the weight of iron ore in metric tons.
+      Clicking this button will initiate a conversation with the bot to calculate the price of iron ore based on its weight. The bot will ask you to enter the weight         of iron ore in metric tons.
     
     * ### Steel Price👷
     
-    Clicking this button will start a conversation with the bot to calculate the price of steel based on its weight. The bot will ask you to enter the weight of steel in metric tons.
+      Clicking this button will start a conversation with the bot to calculate the price of steel based on its weight. The bot will ask you to enter the weight of            steel in metric tons.
     
     * ### Back to Start🏠
     
-    Clicking this button will return you to the initial menu where you can access other options and commands provided by the bot.
+      Clicking this button will return you to the initial menu where you can access other options and commands provided by the bot.
     
     * ### About the Bot🤖
     
-    Clicking this button will display information about the bot, providing details about its purpose and functionality.
+      Clicking this button will display information about the bot, providing details about its purpose and functionality.
 
 
 Contributors
