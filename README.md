@@ -1,6 +1,4 @@
-  Currency Bot Readme
-
-Currency Bot Readme
+TMK Currency Bot Readme
 ===================
 
 This Python script implements a Telegram bot that provides currency conversion functionality, specifically tailored for a case by ТМК (TMK). The bot allows users to check the exchange rates of various currencies and calculate the price of commodities (iron and steel) in different currencies.
